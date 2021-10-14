@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func myFunc(num1 int, num2 int, slc []int) []int{
+func MyFunc(num1 int, num2 int, slc []int) []int{
 	var response = []int{}
 	
 	for i := range slc {
@@ -21,5 +21,5 @@ func main() {
 	num2:=11
 	var slc = []int{2, 3, 5, 7, 11, 13}
 	
-	fmt.Println(myFunc(num1, num2, slc))
+	fmt.Println(MyFunc(num1, num2, slc))
 }
