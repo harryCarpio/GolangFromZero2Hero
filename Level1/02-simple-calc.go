@@ -20,8 +20,9 @@ type Calculator struct{
 	result	int
 }
 
-func (c *Calculator) Add(x int, y int){
+func (c *Calculator) Add(x int, y int) int{
 	c.result = x + y
+	return c.result
 }
 
 func (c *Calculator) Substract(x int, y int){
@@ -52,15 +53,15 @@ func main(){
 	}
 	
 	fmt.Println("--- Add ---")
-	calc.Add(5, 6)
-	fmt.Printf("5 + 6 = %d\n", calc.result)
+	addResult := calc.Add(5, 6)
+	fmt.Printf("5 + 6 = %d\n", addResult)
 
 	fmt.Println("--- Subs ---")
 	calc.Substract(40, 74)
 	fmt.Printf("40 - 74 = %d\n", calc.result)
 
 	fmt.Println("--- Multiply ---")
-	calc.Substract(8, 9)
+	calc.Multiply(8, 9)
 	fmt.Printf("8 * 9 = %d\n", calc.result)
 
 	fmt.Println("--- Divide ---")
