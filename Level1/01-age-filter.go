@@ -17,8 +17,8 @@ func MyFunc(num1 int, num2 int, slc []int) []int{
 }
 
 func main() {
-	num1:=4
-	num2:=11
+	num1:=6
+	num2:=13
 	var slc = []int{2, 3, 5, 7, 11, 13}
 	
 	fmt.Println(MyFunc(num1, num2, slc))
