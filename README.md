@@ -10,3 +10,11 @@ go run 03-simple-inventory.go
 go run 04-simple-queue.go
 go run 05-pointer-value-receiver.go
 ```
+
+## Level 2
+```bash
+cd Level2
+go run 01-interface-switch.go
+go run 02-musical-players.go
+go run 03-shapes.go
+```
