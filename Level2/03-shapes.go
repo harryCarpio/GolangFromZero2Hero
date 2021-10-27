@@ -13,6 +13,7 @@ package main
 import(
 	"fmt"
 	"math"
+	"reflect"
 )
 
 type Rectangle struct{
@@ -46,14 +47,15 @@ type Shape interface{
 }
 
 func measure(s Shape){
-	switch shape := s.(type){
+	/*switch shape := s.(type){
 	case Circle:
 		fmt.Printf("\n- Circle with radius %v measures \n", shape.radius)
 	case Rectangle:
 		fmt.Printf("\n- Rectangle with width %v and heigth %v measures\n", shape.width, shape.height)
 	default:
 		fmt.Println("I don't know this shape")
-	}
+	}*/
+	fmt.Println(reflect.TypeOf(s))	
 	fmt.Printf("Area %v\n",s.Area())
 	fmt.Printf("Perimeter %v\n",s.Perimeter())
 }
