@@ -11,6 +11,6 @@ func TestFilterByAgeRange(t *testing.T){
 
 	v := filterByAgeRange(num1, num2, slc)
 
-	var want =  []int{7, 11, 13}
+	var want =  []int{7, 11, 1}
 	assert.Equal(t, v, want, "Array is not equals than expected")
 }
