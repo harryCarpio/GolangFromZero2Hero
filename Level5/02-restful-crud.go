@@ -37,15 +37,90 @@ type ProductInventory struct {
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var product Product
 	json.Unmarshal(reqBody, &product)
 
 	newPi := ProductInventory{Product: product, Quantity: 1}
 
+	newProductExists := false
+
+	for idx, pi := range inventory {
+		if pi.Product == newPi.Product {
+			pi.Quantity++
+			inventory[idx] = pi
+			newProductExists = true
+		}
+	}
+
+	if !newProductExists {
+		inventory = append(inventory, newPi)
+	}
+
+	json.NewEncoder(w).Encode(inventory)
+}
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+
+	deleteProductId := params["pid"]
+
+	sliceItemToRemove := -1
+
+	for idx, pi := range inventory {
+		if pi.Product.ID == deleteProductId {
+			sliceItemToRemove = idx
+		}
+	}
+
+	if sliceItemToRemove != -1 {
+		inventory = removeSliceItem(inventory, sliceItemToRemove)
+	}
+
+	json.NewEncoder(w).Encode(inventory)
+}
+
+func Update(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	var product Product
+	json.Unmarshal(reqBody, &product)
+
+	newPi := ProductInventory{Product: product, Quantity: 1}
+
+	params := mux.Vars(r)
+	deleteProductId := params["pid"]
+	sliceItemToRemove := -1
+
+	for idx, pi := range inventory {
+		if pi.Product.ID == deleteProductId {
+			sliceItemToRemove = idx
+		}
+	}
+
+	if sliceItemToRemove != -1 {
+		inventory = removeSliceItem(inventory, sliceItemToRemove)
+	}
+
 	inventory = append(inventory, newPi)
 
 	json.NewEncoder(w).Encode(inventory)
+}
+
+func removeSliceItem(s []ProductInventory, i int) []ProductInventory {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
+}
+
+func Get(w http.ResponseWriter, r *http.Request) {
+	response, _ := json.Marshal(inventory)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,6 +135,9 @@ func main() {
 
 	router.HandleFunc("/", HomeHandler)
 	router.HandleFunc("/inventory", Add).Methods("POST")
+	router.HandleFunc("/inventory", Get).Methods("GET")
+	router.HandleFunc("/inventory/{pid}", Delete).Methods("DELETE")
+	router.HandleFunc("/inventory/{pid}", Update).Methods("PUT")
 
 	srv := &http.Server{
 		Handler: router,
