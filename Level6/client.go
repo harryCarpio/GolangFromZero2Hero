@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"chat"
+	"chat/chat"
 
 	"google.golang.org/grpc"
 )
